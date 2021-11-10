@@ -5,3 +5,5 @@ Software/Languages to be used:
 Python 3.8.x  
 Hadoop 3.2.2  
 Spark 3.1.2 
+
+Link to dataset : https://drive.google.com/drive/folders/1mMPa21_FInHVNOaG5irmve42Su6dI77K
