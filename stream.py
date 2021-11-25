@@ -76,10 +76,10 @@ def streamCIFARDataset(tcp_connection, dataset_type='cifar'):
     print("Starting to stream CIFAR data")
     CIFAR_BATCHES = [
         'data_batch_1',
-        # 'data_batch_2',   # uncomment to stream the second training dataset
-        # 'data_batch_3',   # uncomment to stream the third training dataset
-        # 'data_batch_4',   # uncomment to stream the fourth training dataset
-        # 'data_batch_5',    # uncomment to stream the fifth training dataset
+        'data_batch_2',   # uncomment to stream the second training dataset
+        'data_batch_3',   # uncomment to stream the third training dataset
+        'data_batch_4',   # uncomment to stream the fourth training dataset
+        'data_batch_5',    # uncomment to stream the fifth training dataset
         # 'test_batch'      # uncomment to stream the test dataset
     ]
     for batch in CIFAR_BATCHES:
@@ -254,7 +254,4 @@ if __name__ == '__main__':
     else:
         _function(tcp_connection, input_file)
 
-# Setup your own dataset streamer by following the examples above.
-# If you wish to stream a single newline delimited file, use streamFile()
-# If you wish to stream a CSV file, use streamCSVFile()
-# If you wish to stream any other type of file(JSON, XML, etc.), write an appropriate function to load and stream the file
+    tcp_connection.close()
