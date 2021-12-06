@@ -1,5 +1,3 @@
-#! /usr/bin/python3
-
 import time
 import json
 import pickle
@@ -142,8 +140,9 @@ def streamDataset(tcp_connection, dataset_type):    # function to stream a datas
         "train",
         # "test"    # uncomment to stream the test dataset
     ]
+    s = "/home/pes2ug19cs035/bd_project/"
     for dataset in DATASETS:
-        streamCSVFile(tcp_connection, f'{dataset_type}/{dataset}.csv')
+        streamCSVFile(tcp_connection, f'{s}{dataset_type}/{dataset}.csv')
         time.sleep(5)
 
 
@@ -181,14 +180,19 @@ def streamCSVFile(tcp_connection, input_file):    # stream a CSV file to Spark
     # loop through batches of size batch_size lines
     for i in tqdm(range(0, len(values)-batch_size+2, batch_size)):
         send_data = values[i:i+batch_size]  # load batch of rows
-        payload = dict()    # create a payload
+        payload = []    # create a payload
         # iterate over the batch
-        for mini_batch_index in range(len(send_data)):
-            payload[mini_batch_index] = dict()  # create a record
+        for i in range(len(send_data)):
+            d = {}
+            d['Subject'] = send_data[i][0]
+            d['Message'] = send_data[i][1]
+            d['Spam'] = send_data[i][2]
+            payload.append(d)  # create a record
             # iterate over the features
-            for feature_index in range(len(send_data[0])):
+            '''for feature_index in range(len(send_data[0])):
                 # add the feature to the record
-                payload[mini_batch_index][f'feature{feature_index}'] = send_data[mini_batch_index][feature_index]
+                payload[mini_batch_index][f'feature{feature_index}'] = send_data[mini_batch_index][feature_index]'''
+            
         # print(payload)    # uncomment to see the payload being sent
         # encode the payload and add a newline character (do not forget the newline in your dataset)
         send_batch = (json.dumps(payload) + '\n').encode()
@@ -255,3 +259,8 @@ if __name__ == '__main__':
         _function(tcp_connection, input_file)
 
     tcp_connection.close()
+
+# Setup your own dataset streamer by following the examples above.
+# If you wish to stream a single newline delimited file, use streamFile()
+# If you wish to stream a CSV file, use streamCSVFile()
+# If you wish to stream any other type of file(JSON, XML, etc.), write an appropriate function to load and stream the file
